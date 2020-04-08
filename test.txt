@@ -1,0 +1,13 @@
+my name is python3!
+string1
+string2
+string1
+string2
+string1
+string2
+string1
+string2
+string1
+string2
+string1
+string2
