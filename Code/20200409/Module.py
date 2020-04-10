@@ -6,9 +6,14 @@
     1.python 模块导入
 内容：
 '''
+import os,sys
 
-import 20200409.
+sys.path.append('H:\Users\13294\PycharmProjects\ProjectMePy\Code')
 
-f = add(12,13)
-print(f)
+
+def main():
+    print(sys.path)
+
+if __name__ == '__main__':
+    main()
 
