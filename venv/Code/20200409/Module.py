@@ -7,12 +7,11 @@
 内容：
 '''
 import os,sys
-
-sys.path.append('H:\Users\13294\PycharmProjects\ProjectMePy\Code')
-
+import PyFunction
 
 def main():
-    print(sys.path)
+    f = PyFunction.add(3,5)
+    print(f)
 
 if __name__ == '__main__':
     main()
