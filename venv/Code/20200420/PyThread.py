@@ -9,6 +9,8 @@
         【1】方式一：自定义函数的方式
         【2】方式二：自定义类的方式
     2.多线程编程的类和对象
+    3.线程同步
+
 '''
 
 
@@ -58,6 +60,8 @@ main_thread_id = threading.current_thread().ident
 print("主线程名字为：{},主线程ID为:{}\n".format(main_thread_name,main_thread_id))
 '''
 
+'''
+#多线程编程的类和对象
 def fun_1():
     print('------------------启动子线程--------------------\n')
     for i in range(3):
@@ -78,3 +82,41 @@ for i in range(3):
     my_thread_name_2 = threading.current_thread().name
     print('{} - 已运行 ： {} 秒 '.format(my_thread_name_2, i + 1))
 print('----------------主线程结束-----------------------\n')
+'''
+
+'''
+#互斥锁
+class MyThread(threading.Thread):
+    def __init__(self,name=None,lock=None):
+        #super().__init__()
+        threading.Thread.__init__(self)
+        self.name = name
+        self.lock = lock
+
+    def run(self):
+        print('-----------------------start:%s-------------\n'%self.getName())
+        self.lock.acquire()  #获取锁
+        global num_0
+        temp = num_0
+        time.sleep(0.2)
+        temp -= 1
+        num_0 = temp
+        print('t_name = %s : num = %s' %(self.getName(),temp))
+        self.lock.release()
+        print('-----------------------end:%s---------------\n'%self.getName())
+
+
+#主线程
+print('--------------启动主线程-----------')
+thread_lst = []
+num_0 = 10
+lock = threading.Lock() #互斥锁对象
+for i in range(10):
+    t = MyThread(name=str(i),lock=lock)
+    thread_lst.append(t)
+    t.start()
+[t.join() for t in thread_lst]
+print('num_0 最后的值为：{}'.format(num_0))
+'''
+
+
