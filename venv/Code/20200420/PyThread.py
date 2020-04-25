@@ -12,7 +12,14 @@
     3.线程同步：
         3.1互斥锁
         3.2条件变量
-
+        3.3信号量
+        3.4事件
+        3.5定时器
+    4.线程通信
+        1.共享内存
+        2.全局变量
+        3.消息队列
+    5.线程池
 '''
 
 
@@ -20,6 +27,10 @@
 import os
 import time
 import threading
+from threading import Thread,Event
+from threading import Semaphore
+import random
+from datetime import datetime
 
 '''
 #通过自定义函数创建线程
@@ -178,6 +189,74 @@ if __name__ == '__main__':
     c.start()
 '''
 
+'''
+#信号量
+class MyThread(Thread):
+    def __init__(self,name=None,semaph=None,customer=None):
+        super().__init__()
+        self.name = name
+        self.sem = semaph
+        self.custom = customer
+
+    def run(self):
+        self.sem.acquire()    #获取信号量
+        print('{}号顾客：上座，开始就餐\n'.format(self.custom))
+        time.sleep(random.random())
+        print("{}号顾客：离座，就餐结束\n".format(self.custom))
+        self.sem.release()
+
+
+
+if __name__ == '__main__':
+    sem = Semaphore(3)
+    for i in range(20):
+        p = MyThread("线程%d\n"%i,sem,i)
+        p.start()
+'''
+
+'''
+#事件
+def func(e):
+    print("子线程：开始运作...\n")
+    while True:
+        print("现在的秒数是：{}\n".format(datetime.now().second))
+        e.wait()
+        time.sleep(1)
+
+
+
+if __name__ == '__main__':
+    e = Event()
+    p = Thread(target=func,args=(e,))
+    p.daemon = True
+    p.start()
+
+    for i in range(10):
+        s = int (str(datetime.now().second)[-1])
+        if s < 5:
+            print("子线程进入阻塞状态\n")
+            e.clear() #使插入的Flag为False
+        else:
+            print("子线程取消阻塞状态\n")
+            e.set() #线程进入非阻塞状态
+        time.sleep(1)
+    e.set()
+    print("主线程运行结束")
+'''
+
+'''
+#定时器 每隔XX执行一次
+def sayTime(name):
+
+    print("您好，{} 为您报时，现在的时间是：{}".format(name,time.ctime()))
+    global timer
+    timer = threading.Timer(3.0,sayTime,[name])
+    timer.start()
+
+if __name__ == '__main__':
+    timer = threading.Timer(2.0,sayTime,["python"])
+    timer.start()
+'''
 
 
 
