@@ -1,2 +1,2 @@
-{'ID': '1002', 'name': 'liuming', 'english': 120, 'python': 100, 'C': 98}
 {'ID': '1003', 'name': 'zhangwu', 'english': 118, 'python': 100, 'C': 98}
+{'ID': '1001', 'name': 'zhangsan', 'english': 90, 'python': 98, 'C': 99}

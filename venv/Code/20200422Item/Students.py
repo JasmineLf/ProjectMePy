@@ -26,7 +26,7 @@ def menu():
     #输出菜单
     print(""
           "$###################学生信息管理系统####################$\n"
-          "$                                                      $\n"
+          "$                                                        $\n"
           "$                    功 能 菜 单                        $\n"
           "$                   1.录入学生信息                      $\n"
           "$                   2.查找学生信息                      $\n"
@@ -140,10 +140,45 @@ def delete():
                 mark = True
             else:
                 mark = False
+    print("删除学生信息结束！！！")
 
 #修改学生信息函数
 def modify():
-    print("修改学生信息\n")
+    print("开始修改学生信息\n")
+    show()                                                  #显示全部学生信息
+    if os.path.exists("student_information.txt"):           #判断文件是否存在
+        with open("student_information.txt","r") as rfile:  #打开文件
+            student_old = rfile.readlines()                 #读取全部内容
+    else:
+        return
+    studentid = input("请输入要修改的学生ID：(如1001）")
+    with open("student_information.txt","w") as wfile:
+        for student in student_old:
+            d = dict(eval(student))
+            if d["ID"] == studentid:
+                print("已经找到该学生，可以修改其信息！")
+                while True:                                #输入要修改的信息
+                    try:
+                        d["name"] = input("请输入姓名：")
+                        d["english"] = input("请输入英语成绩：")
+                        d["python"] = input("请输入python成绩：")
+                        d["C"] = input("请输入C语言成绩：")
+                    except:
+                        print("输入有误，重写输入！！！\n")
+                    else:
+                        break                               #跳出循环
+                student = str(d)                            #将字典转化为字符串
+                wfile.write(student + '\n')                 #将修改信息写入文件
+                print("修改成功！！！")
+            else:
+                wfile.write(student)                        #将未修改信息写入文件
+    mark = input("是否继续修改其他学生信息？（Y/N)\n")
+    if mark == 'Y':
+        modify()
+    elif mark == 'y':
+        modify()                                            #重新执行修改操作
+    else:
+        show()                                              #显示修改后所有学生信息
 
 #排序
 def sort():
